@@ -25,11 +25,11 @@ export default function Index() {
         >
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
             <Atom className="h-4 w-4" />
-            Virtual Science Lab
+            Virtual Lab by Ingraham Polytechnic
           </div>
 
           <h1 className="mb-4 text-5xl font-extrabold leading-tight tracking-tight text-foreground md:text-7xl">
-            Interactive 3D{" "}
+            Atharva's Virtual{" "}
             <span className="text-gradient-primary">Science Lab</span>
           </h1>
 
