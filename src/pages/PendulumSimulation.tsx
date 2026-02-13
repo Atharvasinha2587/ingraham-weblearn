@@ -16,7 +16,7 @@ export default function PendulumSimulation() {
   return (
     <div className="flex h-screen flex-col bg-background lg:flex-row">
       <div className="relative flex-1">
-        <button onClick={() => navigate("/")} className="absolute left-4 top-4 z-10 flex items-center gap-2 rounded-lg bg-card/60 px-3 py-2 text-sm text-muted-foreground backdrop-blur-md transition-colors hover:text-foreground">
+        <button onClick={() => navigate("/physics")} className="absolute left-4 top-4 z-10 flex items-center gap-2 rounded-lg bg-card/60 px-3 py-2 text-sm text-muted-foreground backdrop-blur-md transition-colors hover:text-foreground">
           <ArrowLeft className="h-4 w-4" /> Back
         </button>
         <PendulumCanvas data={data} params={params} />
