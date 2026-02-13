@@ -16,7 +16,7 @@ export default function ProjectileSimulation() {
       {/* 3D Canvas */}
       <div className="relative flex-1">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/physics")}
           className="absolute left-4 top-4 z-10 flex items-center gap-2 rounded-lg bg-card/60 px-3 py-2 text-sm text-muted-foreground backdrop-blur-md transition-colors hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" /> Back
