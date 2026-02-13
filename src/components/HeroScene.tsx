@@ -1,83 +1,119 @@
-import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef, useMemo } from "react";
-import * as THREE from "three";
+import { useRef, useEffect, useCallback } from "react";
 
-function FloatingAtom({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
-  const groupRef = useRef<THREE.Group>(null);
-  const speed = useMemo(() => 0.3 + Math.random() * 0.5, []);
-  const offset = useMemo(() => Math.random() * Math.PI * 2, []);
-
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.x = state.clock.elapsedTime * speed;
-      groupRef.current.rotation.y = state.clock.elapsedTime * speed * 0.7;
-      groupRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5 + offset) * 0.5;
-    }
-  });
-
-  return (
-    <group ref={groupRef} position={position} scale={scale}>
-      <mesh>
-        <sphereGeometry args={[0.15, 16, 16]} />
-        <meshStandardMaterial color="#38bdf8" emissive="#38bdf8" emissiveIntensity={0.5} transparent opacity={0.8} />
-      </mesh>
-      {[0, 1, 2].map((i) => (
-        <mesh key={i} rotation={[0, 0, (i * Math.PI) / 3]}>
-          <torusGeometry args={[0.5, 0.01, 8, 64]} />
-          <meshStandardMaterial color="#38bdf8" emissive="#38bdf8" emissiveIntensity={0.3} transparent opacity={0.4} />
-        </mesh>
-      ))}
-    </group>
-  );
+interface FloatingEquation {
+  text: string;
+  x: number;
+  y: number;
+  speed: number;
+  opacity: number;
+  size: number;
+  drift: number;
+  phase: number;
 }
 
-function Particles() {
-  const ref = useRef<THREE.Points>(null);
-  const count = 200;
-  const positions = useMemo(() => {
-    const arr = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 20;
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 12;
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 10;
-    }
-    return arr;
-  }, []);
-
-  useFrame((state) => {
-    if (ref.current) {
-      ref.current.rotation.y = state.clock.elapsedTime * 0.02;
-    }
-  });
-
-  return (
-    <points ref={ref}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-      </bufferGeometry>
-      <pointsMaterial size={0.03} color="#38bdf8" transparent opacity={0.6} sizeAttenuation />
-    </points>
-  );
-}
-
-function GridFloor() {
-  return (
-    <gridHelper args={[30, 30, "#1e3a5f", "#0d1b2a"]} position={[0, -3, 0]} />
-  );
-}
+const EQUATIONS = [
+  "E = mc²",
+  "F = ma",
+  "PV = nRT",
+  "∇ × E = -∂B/∂t",
+  "ΔG = ΔH - TΔS",
+  "λ = h/p",
+  "v = u + at",
+  "∮ B·dl = μ₀I",
+  "a² + b² = c²",
+  "∫ f(x)dx",
+  "ψ = Ae^(ikx)",
+  "s = ut + ½at²",
+  "K = ½mv²",
+  "ΔS ≥ 0",
+  "∇²φ = 0",
+  "e^(iπ) + 1 = 0",
+  "F = kq₁q₂/r²",
+  "pH = -log[H⁺]",
+  "T = 2π√(l/g)",
+  "dU = δQ - δW",
+];
 
 export default function HeroScene() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const equationsRef = useRef<FloatingEquation[]>([]);
+  const animFrameRef = useRef<number>(0);
+
+  const initEquations = useCallback((w: number, h: number) => {
+    equationsRef.current = Array.from({ length: 18 }, (_, i) => ({
+      text: EQUATIONS[i % EQUATIONS.length],
+      x: Math.random() * w,
+      y: Math.random() * h,
+      speed: 0.15 + Math.random() * 0.3,
+      opacity: 0.04 + Math.random() * 0.08,
+      size: 12 + Math.random() * 14,
+      drift: (Math.random() - 0.5) * 0.3,
+      phase: Math.random() * Math.PI * 2,
+    }));
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      if (equationsRef.current.length === 0) initEquations(canvas.width, canvas.height);
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    let t = 0;
+    const animate = () => {
+      t += 0.016;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Subtle grid dots
+      ctx.fillStyle = "rgba(255,255,255,0.015)";
+      const spacing = 60;
+      for (let gx = 0; gx < canvas.width; gx += spacing) {
+        for (let gy = 0; gy < canvas.height; gy += spacing) {
+          ctx.beginPath();
+          ctx.arc(gx, gy, 0.8, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Floating equations
+      for (const eq of equationsRef.current) {
+        eq.y -= eq.speed;
+        eq.x += eq.drift + Math.sin(t * 0.5 + eq.phase) * 0.15;
+
+        if (eq.y < -40) {
+          eq.y = canvas.height + 40;
+          eq.x = Math.random() * canvas.width;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = eq.opacity;
+        ctx.font = `${eq.size}px 'Space Grotesk', 'Inter', sans-serif`;
+        ctx.fillStyle = "hsl(220, 40%, 70%)";
+        ctx.fillText(eq.text, eq.x, eq.y);
+        ctx.restore();
+      }
+
+      animFrameRef.current = requestAnimationFrame(animate);
+    };
+    animate();
+
+    return () => {
+      cancelAnimationFrame(animFrameRef.current);
+      window.removeEventListener("resize", resize);
+    };
+  }, [initEquations]);
+
   return (
-    <div className="absolute inset-0 -z-10">
-      <Canvas camera={{ position: [0, 0, 6], fov: 60 }} dpr={[1, 1.5]}>
-        <ambientLight intensity={0.2} />
-        <pointLight position={[5, 5, 5]} intensity={0.5} color="#38bdf8" />
-        <FloatingAtom position={[-3, 1, -2]} scale={1.2} />
-        <FloatingAtom position={[3, -0.5, -1]} scale={0.8} />
-        <FloatingAtom position={[0, 2, -3]} scale={0.6} />
-        <Particles />
-        <GridFloor />
-      </Canvas>
-    </div>
+    <canvas
+      ref={canvasRef}
+      className="pointer-events-none absolute inset-0 -z-10"
+    />
   );
 }
