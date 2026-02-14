@@ -10,13 +10,13 @@ const experiments = [
 export default function PhysicsPage() {
   const navigate = useNavigate();
   return (
-    <div className="min-h-screen bg-background px-6 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-background to-secondary/30 px-6 py-12">
       <div className="mx-auto max-w-4xl">
         <button onClick={() => navigate("/")} className="mb-8 flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
           <ArrowLeft className="h-4 w-4" /> Back to Home
         </button>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-[hsl(200,85%,60%)]">01 — Physics</p>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-[hsl(210,90%,52%)]">01 — Physics</p>
           <h1 className="text-gradient-physics mb-2 text-4xl font-bold" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Physics Lab</h1>
           <p className="mb-10 text-sm text-muted-foreground">Explore kinematics, dynamics, and waves through interactive experiments.</p>
         </motion.div>
@@ -28,9 +28,9 @@ export default function PhysicsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
               onClick={() => navigate(exp.route)}
-              className="glass-panel glow-border group cursor-pointer p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[hsl(200,85%,60%)]/20"
+              className="glass-panel group cursor-pointer p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[hsl(210,90%,52%)]/10"
             >
-              <exp.icon className="mb-3 h-6 w-6 text-[hsl(200,85%,60%)]" />
+              <exp.icon className="mb-3 h-6 w-6 text-[hsl(210,90%,52%)]" />
               <h3 className="mb-1.5 text-sm font-semibold text-foreground">{exp.title}</h3>
               <p className="text-xs leading-relaxed text-muted-foreground">{exp.desc}</p>
             </motion.div>

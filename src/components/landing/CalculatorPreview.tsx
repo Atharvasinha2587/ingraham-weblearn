@@ -21,31 +21,24 @@ function Calculator() {
 
   return (
     <group ref={ref}>
-      {/* Body */}
       <RoundedBox args={[2, 2.8, 0.2]} radius={0.1} smoothness={4}>
-        <meshStandardMaterial color="#1e1b4b" metalness={0.3} roughness={0.6} />
+        <meshStandardMaterial color="#f8fafc" metalness={0.1} roughness={0.6} />
       </RoundedBox>
-
-      {/* Screen */}
       <RoundedBox args={[1.6, 0.5, 0.05]} radius={0.05} position={[0, 0.95, 0.12]}>
-        <meshStandardMaterial color="#0f0a2e" emissive="#f59e0b" emissiveIntensity={0.08} />
+        <meshStandardMaterial color="#f1f5f9" emissive="#ea580c" emissiveIntensity={0.05} />
       </RoundedBox>
-      <Text position={[0.4, 0.95, 0.16]} fontSize={0.2} color="#f59e0b" anchorX="right">
-        3.14
-      </Text>
-
-      {/* Buttons */}
+      <Text position={[0.4, 0.95, 0.16]} fontSize={0.2} color="#ea580c" anchorX="right">3.14</Text>
       {buttons.map((row, ri) =>
         row.map((label, ci) => (
           <group key={`${ri}-${ci}`} position={[-0.55 + ci * 0.38, 0.35 - ri * 0.38, 0.12]}>
             <RoundedBox args={[0.3, 0.3, 0.06]} radius={0.04} smoothness={2}>
               <meshStandardMaterial
-                color={ci === 3 ? "#7c3aed" : "#2e1065"}
-                metalness={0.2}
+                color={ci === 3 ? "#ea580c" : "#e2e8f0"}
+                metalness={0.1}
                 roughness={0.7}
               />
             </RoundedBox>
-            <Text position={[0, 0, 0.04]} fontSize={0.12} color={ci === 3 ? "#e9d5ff" : "#a78bfa"}>
+            <Text position={[0, 0, 0.04]} fontSize={0.12} color={ci === 3 ? "#fff" : "#475569"}>
               {label}
             </Text>
           </group>
@@ -67,15 +60,7 @@ function FloatingSymbols() {
         const angle = (i / symbols.length) * Math.PI * 2;
         const r = 2.5;
         return (
-          <Text
-            key={i}
-            position={[r * Math.cos(angle), Math.sin(angle * 2) * 0.5, r * Math.sin(angle)]}
-            fontSize={0.25}
-            color="#f59e0b"
-            anchorX="center"
-            anchorY="middle"
-            fillOpacity={0.3}
-          >
+          <Text key={i} position={[r * Math.cos(angle), Math.sin(angle * 2) * 0.5, r * Math.sin(angle)]} fontSize={0.25} color="#ea580c" anchorX="center" anchorY="middle" fillOpacity={0.25}>
             {sym}
           </Text>
         );
@@ -87,9 +72,9 @@ function FloatingSymbols() {
 export default function CalculatorPreview() {
   return (
     <Canvas camera={{ position: [0, 0.5, 4.5], fov: 40 }} dpr={[1, 1.5]}>
-      <ambientLight intensity={0.3} />
-      <pointLight position={[3, 3, 3]} intensity={0.5} color="#f59e0b" />
-      <pointLight position={[-3, 2, 3]} intensity={0.3} color="#7c3aed" />
+      <ambientLight intensity={0.6} />
+      <pointLight position={[3, 3, 3]} intensity={0.6} color="#fff" />
+      <directionalLight position={[-3, 3, 3]} intensity={0.3} />
       <Calculator />
       <FloatingSymbols />
       <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />

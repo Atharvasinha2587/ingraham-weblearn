@@ -11,6 +11,7 @@ import ProjectileSimulation from "./pages/ProjectileSimulation";
 import PendulumSimulation from "./pages/PendulumSimulation";
 import AtomSimulation from "./pages/AtomSimulation";
 import UnitCircleSimulation from "./pages/UnitCircleSimulation";
+import ChemistryLabSimulation from "./pages/ChemistryLabSimulation";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/simulation/pendulum" element={<PendulumSimulation />} />
           <Route path="/simulation/atom" element={<AtomSimulation />} />
           <Route path="/simulation/unit-circle" element={<UnitCircleSimulation />} />
+          <Route path="/simulation/chemistry-lab" element={<ChemistryLabSimulation />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

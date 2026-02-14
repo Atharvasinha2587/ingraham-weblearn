@@ -12,26 +12,10 @@ interface FloatingEquation {
 }
 
 const EQUATIONS = [
-  "E = mc²",
-  "F = ma",
-  "PV = nRT",
-  "∇ × E = -∂B/∂t",
-  "ΔG = ΔH - TΔS",
-  "λ = h/p",
-  "v = u + at",
-  "∮ B·dl = μ₀I",
-  "a² + b² = c²",
-  "∫ f(x)dx",
-  "ψ = Ae^(ikx)",
-  "s = ut + ½at²",
-  "K = ½mv²",
-  "ΔS ≥ 0",
-  "∇²φ = 0",
-  "e^(iπ) + 1 = 0",
-  "F = kq₁q₂/r²",
-  "pH = -log[H⁺]",
-  "T = 2π√(l/g)",
-  "dU = δQ - δW",
+  "E = mc²", "F = ma", "PV = nRT", "∇ × E = -∂B/∂t", "ΔG = ΔH - TΔS",
+  "λ = h/p", "v = u + at", "∮ B·dl = μ₀I", "a² + b² = c²", "∫ f(x)dx",
+  "ψ = Ae^(ikx)", "s = ut + ½at²", "K = ½mv²", "ΔS ≥ 0", "∇²φ = 0",
+  "e^(iπ) + 1 = 0", "F = kq₁q₂/r²", "pH = -log[H⁺]", "T = 2π√(l/g)", "dU = δQ - δW",
 ];
 
 export default function HeroScene() {
@@ -44,10 +28,10 @@ export default function HeroScene() {
       text: EQUATIONS[i % EQUATIONS.length],
       x: Math.random() * w,
       y: Math.random() * h,
-      speed: 0.15 + Math.random() * 0.3,
-      opacity: 0.04 + Math.random() * 0.08,
+      speed: 0.12 + Math.random() * 0.25,
+      opacity: 0.06 + Math.random() * 0.1,
       size: 12 + Math.random() * 14,
-      drift: (Math.random() - 0.5) * 0.3,
+      drift: (Math.random() - 0.5) * 0.25,
       phase: Math.random() * Math.PI * 2,
     }));
   }, []);
@@ -72,7 +56,7 @@ export default function HeroScene() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Subtle grid dots
-      ctx.fillStyle = "rgba(255,255,255,0.015)";
+      ctx.fillStyle = "rgba(100, 110, 140, 0.06)";
       const spacing = 60;
       for (let gx = 0; gx < canvas.width; gx += spacing) {
         for (let gy = 0; gy < canvas.height; gy += spacing) {
@@ -82,10 +66,9 @@ export default function HeroScene() {
         }
       }
 
-      // Floating equations
       for (const eq of equationsRef.current) {
         eq.y -= eq.speed;
-        eq.x += eq.drift + Math.sin(t * 0.5 + eq.phase) * 0.15;
+        eq.x += eq.drift + Math.sin(t * 0.5 + eq.phase) * 0.12;
 
         if (eq.y < -40) {
           eq.y = canvas.height + 40;
@@ -95,7 +78,7 @@ export default function HeroScene() {
         ctx.save();
         ctx.globalAlpha = eq.opacity;
         ctx.font = `${eq.size}px 'Space Grotesk', 'Inter', sans-serif`;
-        ctx.fillStyle = "hsl(220, 40%, 70%)";
+        ctx.fillStyle = "hsl(230, 30%, 55%)";
         ctx.fillText(eq.text, eq.x, eq.y);
         ctx.restore();
       }

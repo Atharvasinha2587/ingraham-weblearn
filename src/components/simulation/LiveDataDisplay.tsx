@@ -13,7 +13,7 @@ function DataItem({ label, value, unit }: { label: string; value: string; unit: 
 
 export default function LiveDataDisplay({ data }: { data: SimData }) {
   return (
-    <div className="glass-panel glow-border space-y-3 p-5">
+    <div className="glass-panel space-y-3 p-5">
       <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Live Data</h2>
       <DataItem label="Time" value={data.time.toFixed(2)} unit="s" />
       <DataItem label="Max Height" value={data.maxHeight.toFixed(2)} unit="m" />

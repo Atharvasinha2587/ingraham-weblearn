@@ -12,33 +12,21 @@ export default function ProjectileSimulation() {
   const { params, setParams, data, status, start, pause, reset } = useProjectileSimulation();
 
   return (
-    <div className="flex h-screen flex-col bg-background lg:flex-row">
-      {/* 3D Canvas */}
+    <div className="flex h-screen flex-col bg-gradient-to-br from-background to-secondary/20 lg:flex-row">
       <div className="relative flex-1">
         <button
           onClick={() => navigate("/physics")}
-          className="absolute left-4 top-4 z-10 flex items-center gap-2 rounded-lg bg-card/60 px-3 py-2 text-sm text-muted-foreground backdrop-blur-md transition-colors hover:text-foreground"
+          className="absolute left-4 top-4 z-10 flex items-center gap-2 rounded-xl bg-card/80 px-3 py-2 text-sm text-muted-foreground backdrop-blur-md border border-border/60 shadow-sm transition-colors hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" /> Back
         </button>
-
-        <div className="absolute left-4 bottom-4 z-10 rounded-lg bg-card/60 px-3 py-1.5 text-xs text-muted-foreground backdrop-blur-md">
+        <div className="absolute left-4 bottom-4 z-10 rounded-xl bg-card/80 px-3 py-1.5 text-xs text-muted-foreground backdrop-blur-md border border-border/60 shadow-sm">
           Orbit: drag · Zoom: scroll · Pan: right-drag
         </div>
-
         <SimulationCanvas data={data} />
       </div>
-
-      {/* Side Panel */}
       <div className="flex w-full flex-col gap-4 overflow-y-auto p-4 lg:w-[340px]">
-        <ControlsPanel
-          params={params}
-          setParams={setParams}
-          status={status}
-          onStart={start}
-          onPause={pause}
-          onReset={reset}
-        />
+        <ControlsPanel params={params} setParams={setParams} status={status} onStart={start} onPause={pause} onReset={reset} />
         <LiveDataDisplay data={data} />
         <FormulaBox params={params} />
         <HeightChart data={data} />

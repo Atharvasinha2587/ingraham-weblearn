@@ -45,7 +45,7 @@ export default function ControlsPanel({ params, setParams, status, onStart, onPa
   const disabled = running;
 
   return (
-    <div className="glass-panel glow-border flex flex-col gap-5 p-5">
+    <div className="glass-panel flex flex-col gap-5 p-5">
       <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Controls</h2>
 
       <LabeledSlider
@@ -80,15 +80,15 @@ export default function ControlsPanel({ params, setParams, status, onStart, onPa
 
       <div className="flex gap-2 pt-2">
         {status !== "running" ? (
-          <button onClick={onStart} className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-all hover:scale-105">
+          <button onClick={onStart} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-md shadow-primary/20 transition-all hover:shadow-lg hover:-translate-y-0.5">
             <Play className="h-4 w-4" /> {status === "paused" ? "Resume" : "Start"}
           </button>
         ) : (
-          <button onClick={onPause} className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-secondary px-4 py-2.5 text-sm font-semibold text-secondary-foreground transition-all hover:scale-105">
+          <button onClick={onPause} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-secondary px-4 py-2.5 text-sm font-semibold text-secondary-foreground transition-all hover:-translate-y-0.5">
             <Pause className="h-4 w-4" /> Pause
           </button>
         )}
-        <button onClick={onReset} className="flex items-center justify-center gap-2 rounded-lg border border-border bg-muted px-4 py-2.5 text-sm font-medium text-muted-foreground transition-all hover:scale-105">
+        <button onClick={onReset} className="flex items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-medium text-muted-foreground transition-all hover:-translate-y-0.5">
           <RotateCcw className="h-4 w-4" /> Reset
         </button>
       </div>

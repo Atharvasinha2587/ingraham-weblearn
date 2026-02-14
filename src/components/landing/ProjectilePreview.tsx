@@ -4,7 +4,6 @@ import { useRef, useMemo } from "react";
 import * as THREE from "three";
 
 function TrajectoryArc() {
-  const ref = useRef<THREE.Points>(null);
   const ballRef = useRef<THREE.Mesh>(null);
   const timeRef = useRef(0);
 
@@ -42,31 +41,28 @@ function TrajectoryArc() {
 
   return (
     <group>
-      <points ref={ref}>
+      <points>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[positions, 3]} />
         </bufferGeometry>
-        <pointsMaterial size={0.04} color="#60a5fa" transparent opacity={0.6} sizeAttenuation />
+        <pointsMaterial size={0.05} color="#4f8cff" transparent opacity={0.5} sizeAttenuation />
       </points>
       <mesh ref={ballRef}>
         <sphereGeometry args={[0.18, 20, 20]} />
-        <meshStandardMaterial color="#818cf8" emissive="#818cf8" emissiveIntensity={0.5} />
+        <meshStandardMaterial color="#4f8cff" emissive="#4f8cff" emissiveIntensity={0.3} metalness={0.4} roughness={0.3} />
       </mesh>
     </group>
   );
 }
 
-function Grid() {
-  return <gridHelper args={[16, 16, "#2a2050", "#1a1435"]} position={[0, -1, 0]} />;
-}
-
 export default function ProjectilePreview() {
   return (
     <Canvas camera={{ position: [2, 2, 6], fov: 45 }} dpr={[1, 1.5]}>
-      <ambientLight intensity={0.3} />
-      <pointLight position={[5, 5, 5]} intensity={0.5} color="#818cf8" />
+      <ambientLight intensity={0.6} />
+      <pointLight position={[5, 5, 5]} intensity={0.8} color="#fff" />
+      <directionalLight position={[3, 5, 3]} intensity={0.5} />
       <TrajectoryArc />
-      <Grid />
+      <gridHelper args={[16, 16, "#cbd5e1", "#e2e8f0"]} position={[0, -1, 0]} />
       <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={1} />
     </Canvas>
   );
